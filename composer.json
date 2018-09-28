@@ -1,0 +1,15 @@
+{
+  "name": "user/content",
+  "authors": [
+    {
+      "name": "Lukasz93P",
+      "email": "lukasz9.3@interia.pl"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
+}
