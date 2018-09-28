@@ -24,22 +24,21 @@ class FileChecker implements FileCheckerInterface
     /**
      * @param array $possiblePatches
      * @param string $patch
-     * @param bool $unlink
+     * @param bool $unset
      * @return string
      */
     public static function searchForFile(array &$possiblePatches, string $patch, bool $unset = false): string
     {
-        $urlCount = count($possiblePatches);
-        for ($x = 0; $x < $urlCount; $x++) {
-            $patch .= DIRECTORY_SEPARATOR . ucfirst($possiblePatches[$x]);
+        foreach($possiblePatches as $possiblePath){
+            $patch .= DIRECTORY_SEPARATOR . ucfirst($possiblePath);
             if (FileChecker::checkFileExistence("$patch.php")) {
                 if ($unset) {
-                    unset($possiblePatches[$x]);
+                    array_shift($possiblePatches);
                 }
                 return $patch;
             }
             if ($unset) {
-                unset($possiblePatches[$x]);
+                array_shift($possiblePatches);
             }
         }
         return '';

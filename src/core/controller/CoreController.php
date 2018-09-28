@@ -37,9 +37,9 @@ abstract class CoreController
     public function __call($methodName, $args)
     {
         if (isset($methodName)) {
-            if (is_callable([$this->responseSender, $methodName], true)) {
+            if (method_exists($this->responseSender, $methodName)) {
                 return call_user_func_array([$this->responseSender, $methodName], $args);
-            } else if (is_callable([$this->cacher, $methodName], true)) {
+            } else if (method_exists($this->cacher, $methodName)) {
                 return call_user_func_array([$this->cacher, $methodName], $args);
             }
         }

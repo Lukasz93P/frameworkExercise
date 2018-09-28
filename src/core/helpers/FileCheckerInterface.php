@@ -16,6 +16,6 @@ interface FileCheckerInterface
      * @param string $patch
      * @return string
      */
-    public static function searchForFile(array &$possiblePatches, string $patch): string;
+    public static function searchForFile(array &$possiblePatches, string $patch, bool $unset): string;
 
 }
