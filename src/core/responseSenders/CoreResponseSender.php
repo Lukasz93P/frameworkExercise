@@ -15,6 +15,22 @@ class CoreResponseSender implements ResponseSenderInterface
 
     public function errorResponse(int $code, string $message)
     {
-        header($_SERVER["SERVER_PROTOCOL"] . $message, true, $code);
+        http_response_code($code);
+        header("Status: $code $message");
+    }
+
+    /**
+     * @param string $view
+     * @param array|null $data
+     * @return mixed
+     * @throws \Exception
+     */
+    public function sendView(string $view, array $data = null)
+    {
+        $requerstedViewPath = BASE_PATCH . 'application' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $view . '.php';
+        if (file_exists($requerstedViewPath)) {
+            return require_once $requerstedViewPath;
+        }
+        throw new \Exception('View ' . $view . ' not found');
     }
 }

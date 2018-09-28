@@ -36,12 +36,10 @@ class Core
             $url = filter_var($_GET['url'], FILTER_SANITIZE_URL);
             $this->explodedUrl = explode('/', $url);
             $this->getController($this->explodedUrl);
+            if (!empty($this->explodedUrl)) {
+                $this->callController($this->explodedUrl);
+            }
         }
-        //var_dump($this->explodedUrl);
-        //var_dump($this->controller);
-        $toSend = new \stdClass();
-        $toSend->test = "Test value";
-        $this->controller->sendJson($toSend);
     }
 
     /**
@@ -50,5 +48,19 @@ class Core
     protected function getController(array $url)
     {
         $this->controller = $this->controllerLoader->produceController($this->explodedUrl);
+    }
+
+    /**
+     * @param array $url
+     * @return mixed
+     */
+    protected function callController(array &$url)
+    {
+        $methodName = $url[0];
+        if (method_exists($this->controller, $methodName)) {
+            array_shift($url);
+            return call_user_func_array([$this->controller, $methodName], $url);
+        }
+        $this->controller->errorResponse(404, 'Requested page not found');
     }
 }

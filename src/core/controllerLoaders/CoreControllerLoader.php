@@ -43,6 +43,7 @@ class CoreControllerLoader implements ControllerLoaderInterface
     /**
      * @param array $url
      * @return CoreController
+     * @throws \Exception
      */
     function produceController(array &$url): CoreController
     {
