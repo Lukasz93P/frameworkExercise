@@ -6,7 +6,9 @@
       "email": "lukasz9.3@interia.pl"
     }
   ],
-  "require": {},
+  "require": {
+    "phpmailer/phpmailer": "^6.0"
+  },
   "autoload": {
     "classmap": [
       "src/"
