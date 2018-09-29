@@ -5,10 +5,10 @@ namespace Core\Mailers;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use Core\Mailers\MailerInterface;
+use Core\Mailers\MailerAdapterInterface;
 use Core\Mailers\PhpMailerConfigTrait;
 
-class PhpMailerAdapter extends PHPMailer implements MailerInterface
+class PhpMailerAdapter extends PHPMailer implements MailerAdapterInterface
 {
     use PhpMailerConfigTrait;
 
@@ -41,7 +41,7 @@ class PhpMailerAdapter extends PHPMailer implements MailerInterface
      * @param string $sender
      * @return mixed
      */
-    protected function setSender(string $sender)
+    public function setSender(string $sender)
     {
         $params = explode('|', $sender);
         return call_user_func_array([$this, 'setFrom'], $params);
@@ -50,7 +50,7 @@ class PhpMailerAdapter extends PHPMailer implements MailerInterface
     /**
      * @param array $recipients
      */
-    protected function addRecipients(array $recipients)
+    public function addRecipients(array $recipients)
     {
         foreach ($recipients as $recipient) {
             $this->addAddress($recipient);
@@ -60,7 +60,7 @@ class PhpMailerAdapter extends PHPMailer implements MailerInterface
     /**
      * @param array $attachments
      */
-    protected function addAttachments(array $attachments)
+    public function addAttachments(array $attachments)
     {
         foreach ($attachments as $attachment) {
             $attachment = explode('|', $attachment);
