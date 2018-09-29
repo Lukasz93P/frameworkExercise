@@ -13,7 +13,9 @@ class Listing extends CoreController
         $testValue = new \stdClass();
         $testValue->name = 'Lukasz';
         $testValue->secondName = 'Franikowski';
-        $this->cacher->putIntoCache('testkey', $testValue);
+        $this->putIntoCache('testkey', $testValue);
+        $data['content'] = 'forms/uploadFile';
+        $this->sendView('layouts/mainLayout', $data);
     }
 
     public function getCache($key)
