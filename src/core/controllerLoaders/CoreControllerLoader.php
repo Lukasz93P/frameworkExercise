@@ -6,9 +6,10 @@ namespace Core\ControllerLoaders;
 use Core\Controller\CoreController;
 use Core\ControllerLoaders\ControllerLoaderInterface;
 use Core\Helpers\FileChecker;
-use Core\Cacher\CoreCacher;
+use Core\Cache\CoreCacher;
 use Core\Helpers\FileCheckerInterface;
 use Core\Responsesenders\CoreResponseSender;
+use Core\Cache\Adapters\RedisCacherAdapter;
 
 
 class CoreControllerLoader implements ControllerLoaderInterface
@@ -49,7 +50,7 @@ class CoreControllerLoader implements ControllerLoaderInterface
     {
         $className = $this->fileChecker->searchForFile($url, $this->controllersPath, true);
         if (!empty($className)) {
-            return new $className(new CoreCacher(), new CoreResponseSender());
+            return new $className(new CoreCacher(new RedisCacherAdapter()), new CoreResponseSender());
         }
         throw new \Exception("Page not found");
     }

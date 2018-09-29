@@ -5,9 +5,6 @@ namespace Core;
 
 use Core\Controller\CoreController;
 use Core\ControllerLoaders\ControllerLoaderInterface;
-use Core\Helpers\FileChecker;
-use Core\ControllerLoaders\CoreControllerLoader;
-use Core\Mailers\PhpMailerAdapter;
 
 class Core
 {

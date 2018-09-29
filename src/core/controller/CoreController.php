@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Core\Controller;
 
-use Core\Cacher\CacherInterface;
+use Core\Cache\CacherInterface;
 use Core\Responsesenders\ResponseSenderInterface;
 
 abstract class CoreController
