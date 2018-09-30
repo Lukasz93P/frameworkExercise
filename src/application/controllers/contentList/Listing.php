@@ -8,7 +8,7 @@ use Core\Upload\CoreUploader;
 
 class Listing extends CoreController
 {
-    public function index()
+    public function index($testArg)
     {
         $testValue = new \stdClass();
         $testValue->name = 'Lukasz';
@@ -16,6 +16,8 @@ class Listing extends CoreController
         $this->putIntoCache('testkey', $testValue);
         $data['content'] = 'forms/uploadFile';
         $this->sendView('layouts/mainLayout', $data);
+        var_dump($testArg);
+        var_dump($_POST['middleware_test']);
     }
 
     public function getCache($key)

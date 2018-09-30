@@ -14,4 +14,10 @@ interface ControllerCallerInterface
      * @return mixed
      */
     public function callController(CoreController $controller, string $method, array &$url = null);
+
+    /**
+     * @param bool $callNext
+     * @return mixed
+     */
+    public function setCallNext(bool $callNext);
 }
