@@ -5,6 +5,8 @@ namespace Core;
 
 use Core\Controller\CoreController;
 use Core\ControllerLoaders\ControllerLoaderInterface;
+use Core\Methodselection\MethodSelectorInterface;
+use Core\Controllercalling\ControllerCallerInterface;
 
 class Core
 {
@@ -19,6 +21,21 @@ class Core
     protected $controller;
 
     /**
+     * @var MethodSelectorInterface
+     */
+    protected $methodSelector;
+
+    /**
+     * @var ControllerCallerInterface
+     */
+    protected $controllerCaller;
+
+    /**
+     * @var string
+     */
+    protected $method;
+
+    /**
      * @var array
      */
     protected $explodedUrl;
@@ -27,17 +44,19 @@ class Core
      * Core constructor.
      * @param ControllerLoaderInterface $controllerLoader
      */
-    public function __construct(ControllerLoaderInterface $controllerLoader)
+    public function __construct(ControllerLoaderInterface $controllerLoader, MethodSelectorInterface $methodSelector, ControllerCallerInterface $controllerCaller)
     {
         $this->controllerLoader = $controllerLoader;
-
+        $this->methodSelector = $methodSelector;
+        $this->controllerCaller = $controllerCaller;
         if (isset($_GET['url'])) {
             $url = filter_var($_GET['url'], FILTER_SANITIZE_URL);
             $this->explodedUrl = explode('/', $url);
             $this->getController($this->explodedUrl);
             if (!empty($this->explodedUrl)) {
-                $this->callController($this->explodedUrl);
+                $this->getControllerMethod($this->explodedUrl);
             }
+            $this->controllerCaller->callController($this->controller,$this->method, $this->explodedUrl);
         }
     }
 
@@ -51,15 +70,12 @@ class Core
 
     /**
      * @param array $url
-     * @return mixed
      */
-    protected function callController(array &$url)
+    protected function getControllerMethod(array &$url)
     {
-        $methodName = $url[0];
-        if (method_exists($this->controller, $methodName)) {
-            array_shift($url);
-            return call_user_func_array([$this->controller, $methodName], $url);
+        $this->method = $this->methodSelector->selectMethod($this->controller, $this->explodedUrl);
+        if (!$this->method) {
+            $this->controller->errorResponse(404, 'Requested page not found');
         }
-        $this->controller->errorResponse(404, 'Requested page not found');
     }
 }
