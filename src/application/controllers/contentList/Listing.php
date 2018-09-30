@@ -5,10 +5,11 @@ namespace Application\Controllers\Contentlist;
 
 use Core\Controller\CoreController;
 use Core\Upload\CoreUploader;
+use Core\Request\Request;
 
 class Listing extends CoreController
 {
-    public function index($testArg)
+    public function index(Request $request)
     {
         $testValue = new \stdClass();
         $testValue->name = 'Lukasz';
@@ -16,8 +17,10 @@ class Listing extends CoreController
         $this->putIntoCache('testkey', $testValue);
         $data['content'] = 'forms/uploadFile';
         $this->sendView('layouts/mainLayout', $data);
-        var_dump($testArg);
-        var_dump($_POST['middleware_test']);
+        var_dump($request->url);
+        echo 'POST';
+        var_dump($request->post['middleware_test']);
+        var_dump($request->post);
     }
 
     public function getCache($key)
@@ -28,13 +31,13 @@ class Listing extends CoreController
 
     public function showUploadForm()
     {
-        $this->responseSender->sendView('forms/uploadFile');
+        $this->responseSender->sendView('forms / uploadFile');
     }
 
     public function uploadimage()
     {
         $file = $_FILES['test'];
-        $destination = BASE_PATCH . 'uploads' . DIRECTORY_SEPARATOR . time() . 'test_name.jpg';
+        $destination = BASE_PATCH . 'uploads' . DIRECTORY_SEPARATOR . time() . 'test_name . jpg';
         $uploaded = CoreUploader::uploadFile($file, $destination, true);
         var_dump($uploaded);
     }
