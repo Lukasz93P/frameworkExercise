@@ -1,0 +1,7 @@
+<objects>
+    <class abstract = "Core" name = "Core\Core">
+        <arg type="class" name = "Core\ControllerLoaders\CoreControllerLoader"/>
+        <arg type="class" name = "Core\Methodselection\CoreMethodSelector"/>
+        <arg type="class" name = "Core\Controllercalling\CoreControllerCaller"/>
+    </class>
+</objects>
