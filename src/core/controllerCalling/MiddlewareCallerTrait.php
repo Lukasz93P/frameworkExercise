@@ -8,5 +8,5 @@ trait MiddlewareCallerTrait
     /**
      * @var array
      */
-    protected $middlewares = ['Application\Controllers\Contentlist\Listing' => ['index' => ['Application\Middlewares\TestMiddleware|testMiddleware', 'Application\Middlewares\NextTest|nextMiddleware']]];
+    protected $middlewares = [];//['Application\Controllers\Contentlist\Listing' => ['index' => ['Application\Middlewares\TestMiddleware|testMiddleware', 'Application\Middlewares\NextTest|nextMiddleware']]];
 }

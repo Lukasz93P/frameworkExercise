@@ -74,8 +74,9 @@ class Core
     protected function getControllerMethod(array &$url)
     {
         $this->method = $this->methodSelector->selectMethod($this->controller, $this->explodedUrl);
-        if (!$this->method) {
+        if (empty($this->method)) {
             $this->controller->errorResponse(404, 'Requested page not found');
+            exit;
         }
     }
 }
